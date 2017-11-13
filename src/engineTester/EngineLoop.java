@@ -18,6 +18,7 @@ public class EngineLoop {
 		Renderer renderer = new Renderer();
 		StaticShader shader = new StaticShader();
 		
+		// testing the engine
 		float[] vertices = {
 				-0.5f, 0.5f, 0f,		//v0
 				-0.5f, -0.5f, 0f,	//v1
