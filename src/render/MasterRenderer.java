@@ -35,11 +35,34 @@ public class MasterRenderer {
 	private List<Terrain> terrains = new ArrayList<Terrain>();
 	
 	public MasterRenderer() {
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glCullFace(GL11.GL_BACK);
+		enableCulling();
 		createProjectionMatrix();
 		renderer = new EntityRenderer(shader, projectionMatrix);
 		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+	}
+	
+	public Matrix4f getProjectionMatrix() {
+		return this.projectionMatrix;
+	}
+	
+	public static void enableCulling() {
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_BACK);
+	}
+	
+	public static void disableCulling() {
+		GL11.glDisable(GL11.GL_CULL_FACE);
+	}
+	
+	public void renderScene(List<Entity> entities, List<Terrain> terrains, Light light,
+			Camera camera) {
+		for (Terrain terrain : terrains) {
+			processTerrain(terrain);
+		}
+		for (Entity entity : entities) {
+			processEntity(entity);
+		}
+		render(light, camera);
 	}
 	
 	public void render(Light light, Camera camera) {
