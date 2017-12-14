@@ -61,8 +61,8 @@ public class EngineLoop {
 		Light light = new Light(new Vector3f(2000,2000,2000), new Vector3f(1,1,1));
 		Camera camera = new Camera();
 		
-		Terrain terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grass")));
-		Terrain terrain2 = new Terrain(-1, -1, loader, new ModelTexture(loader.loadTexture("grass")));
+		Terrain terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grass")), "heightmap");
+		Terrain terrain2 = new Terrain(-1, -1, loader, new ModelTexture(loader.loadTexture("grass")), "heightmap");
 		List<Terrain> terrains = new ArrayList<Terrain>();
 		terrains.add(terrain);
 		terrains.add(terrain2);
