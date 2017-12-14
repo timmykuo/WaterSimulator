@@ -34,28 +34,16 @@ public class EngineLoop {
 		
 		RawModel model = OBJLoader.loadObjModel("tree", loader);
 		TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("tree")));
-		TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel("grassModel", loader), 
-				new ModelTexture(loader.loadTexture("grassTexture")));
-		grass.getTexture().setHasTransparency(true);
-		grass.getTexture().setUseFakeLighting(true);
+//		TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel("grassModel", loader), 
+//				new ModelTexture(loader.loadTexture("grassTexture")));
+//		grass.getTexture().setHasTransparency(true);
+//		grass.getTexture().setUseFakeLighting(true);
 		TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel("fern", loader), 
 				new ModelTexture(loader.loadTexture("fern")));
 		fern.getTexture().setHasTransparency(true);
 //		ModelTexture texture = staticModel.getTexture();
 //		texture.setShineDamper(10);
 //		texture.setReflectivity(1);
-		
-		List<Entity> entities = new ArrayList<Entity>();
-		Random random = new Random();
-		
-		for(int i = 0; i < 200; i++) {
-			entities.add(new Entity(staticModel, new Vector3f(random.nextFloat() * 400 - 200, 0, 
-					random.nextFloat() * -300), 0, 0, 0, 3));
-			entities.add(new Entity(grass, new Vector3f(random.nextFloat() * 400 - 200, 0, 
-					random.nextFloat() * -300), 0, 0, 0, 1));
-			entities.add(new Entity(fern, new Vector3f(random.nextFloat() * 400 - 200, 0, 
-					random.nextFloat() * -300), 0, 0, 0, 0.6f));
-		}
 		
 //		Entity entity = new Entity(staticModel, new Vector3f(0,0,-25), 0, 0, 0, 1);
 		Light light = new Light(new Vector3f(2000,2000,2000), new Vector3f(1,1,1));
@@ -67,10 +55,46 @@ public class EngineLoop {
 		terrains.add(terrain);
 		terrains.add(terrain2);
 		
+		List<Entity> entities = new ArrayList<Entity>();
+		Random random = new Random();
+		
+		for(int i = 0; i < 400; i++) {
+			if(i % 5 == 0) {
+				float x = random.nextFloat() * 800 - 400;
+				float z = random.nextFloat() * -300;
+				float y;
+				if (x >= 0) {
+					y = terrain.getHeightOfTerrain(x, z);
+				} else {
+					y = terrain2.getHeightOfTerrain(x, z);
+				}
+				entities.add(new Entity(fern, new Vector3f(x, y, z), 0, 0, 0, 0.6f));
+			}
+			if(i % 2 == 0) {
+				float x = random.nextFloat() * 800 - 400;
+				float z = random.nextFloat() * -300;
+				float y;
+				if (x >= 0) {
+					y = terrain.getHeightOfTerrain(x, z);
+				} else {
+					y = terrain2.getHeightOfTerrain(x, z);
+				}
+//				entities.add(new Entity(grass, new Vector3f(x, y, z), 0, 0, 0, 1));
+//				x = random.nextFloat() * 800 - 400;
+//				z = random.nextFloat() * -300;
+//				if (x >= 0) {
+//					y = terrain.getHeightOfTerrain(x, z);
+//				} else {
+//					y = terrain2.getHeightOfTerrain(x, z);
+//				}
+				entities.add(new Entity(staticModel, new Vector3f(x, y, z), 0, 0, 0, 3));
+			}
+		}
+		
 		WaterShader waterShader = new WaterShader();
 		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix());
 		List<WaterTile> waters = new ArrayList<WaterTile>();
-		waters.add(new WaterTile(0, -75, 1));
+		waters.add(new WaterTile(-75, -75, 0));
 		
 		WaterFrameBuffers fbos = new WaterFrameBuffers();
 		
