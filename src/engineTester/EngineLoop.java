@@ -57,32 +57,32 @@ public class EngineLoop {
 		Terrain terrain2 = new Terrain(-1, -1, loader, new ModelTexture(loader.loadTexture("grass")), "heightmap");
 		List<Terrain> terrains = new ArrayList<Terrain>();
 		terrains.add(terrain);
-		terrains.add(terrain2);
+//		terrains.add(terrain2);
 		
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random();
 		
-		for(int i = 0; i < 400; i++) {
+		for(int i = 0; i < 200; i++) {
 			if(i % 5 == 0) {
-				float x = random.nextFloat() * 800 - 400;
-				float z = random.nextFloat() * -300;
+				float x = random.nextFloat() * 100;
+				float z = random.nextFloat() * -100;
 				float y;
-				if (x >= 0) {
+//				if (x >= 0) {
 					y = terrain.getHeightOfTerrain(x, z);
-				} else {
-					y = terrain2.getHeightOfTerrain(x, z);
-				}
-				entities.add(new Entity(fern, new Vector3f(x, y, z), 0, 0, 0, 0.6f));
+//				} else {
+//					y = terrain2.getHeightOfTerrain(x, z);
+//				}
+//				entities.add(new Entity(fern, new Vector3f(x, y, z), 0, 0, 0, 0.2f));
 			}
 			if(i % 2 == 0) {
-				float x = random.nextFloat() * 800 - 400;
-				float z = random.nextFloat() * -300;
+				float x = random.nextFloat() * 100;
+				float z = random.nextFloat() * -100;
 				float y;
-				if (x >= 0) {
+//				if (x >= 0) {
 					y = terrain.getHeightOfTerrain(x, z);
-				} else {
-					y = terrain2.getHeightOfTerrain(x, z);
-				}
+//				} else {
+//					y = terrain2.getHeightOfTerrain(x, z);
+//				}
 //				entities.add(new Entity(grass, new Vector3f(x, y, z), 0, 0, 0, 1));
 //				x = random.nextFloat() * 800 - 400;
 //				z = random.nextFloat() * -300;
@@ -91,7 +91,7 @@ public class EngineLoop {
 //				} else {
 //					y = terrain2.getHeightOfTerrain(x, z);
 //				}
-				entities.add(new Entity(staticModel, new Vector3f(x, y, z), 0, 0, 0, 3));
+//				entities.add(new Entity(staticModel, new Vector3f(x, y, z), 0, 0, 0, 1));
 			}
 		}
 		
@@ -99,10 +99,10 @@ public class EngineLoop {
 		WaterShader waterShader = new WaterShader();
 		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
 		List<WaterTile> waters = new ArrayList<WaterTile>();
-		WaterTile water1 = new WaterTile(200, -200, 0);
-		WaterTile water2 = new WaterTile(-200, -200, 0);
+		WaterTile water1 = new WaterTile(50, -50, 0);
+//		WaterTile water2 = new WaterTile(-50, -50, 0);
 		waters.add(water1);
-		waters.add(water2);
+//		waters.add(water2);
 		
 		while (!Display.isCloseRequested() ) {
 			// game logic

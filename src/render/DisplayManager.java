@@ -38,7 +38,7 @@ public class DisplayManager {
 		Display.sync(FPS_CAP);	// syncs the max fps of the display
 		Display.update();
 		long currentFrameTime = getCurrentTime();
-		delta = (currentFrameTime - lastFrameTime) / 1000;
+		delta = (currentFrameTime - lastFrameTime) / 1000f;
 		lastFrameTime = currentFrameTime;
 	}
 	

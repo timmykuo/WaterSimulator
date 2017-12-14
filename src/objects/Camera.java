@@ -8,7 +8,7 @@ public class Camera {
 	
 	private float theta = 0;
 
-	private Vector3f position = new Vector3f(0, 3, 0);
+	private Vector3f position = new Vector3f(50, 10, 0);
 	private float pitch = ((float) Math.PI)/2;
 	private float yaw = 0;
 	private float roll;

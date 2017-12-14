@@ -16,9 +16,9 @@ import tools.Maths;
 
 public class Terrain {
 
-	private static final float SIZE = 400;
+	private static final float SIZE = 100;
 //	private static final int VERTEX_COUNT = 128;
-	private static final float MAX_HEIGHT = 40;
+	private static final float MAX_HEIGHT = 10;
 	private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 	
 	private float x;
