@@ -1,18 +1,24 @@
 package objects;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
+	
+	private float theta = 0;
 
 	private Vector3f position = new Vector3f(0, 3, 0);
-	private float pitch;
-	private float yaw;
+	private float pitch = ((float) Math.PI)/2;
+	private float yaw = 0;
 	private float roll;
 	
 	public Camera() {}
 	
 	public void move() {
+		if(Mouse.isButtonDown(0)) {
+			pan(Mouse.getDX() * 0.3f, Mouse.getDY() * 0.1f);
+		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
 			position.z -= 0.2f;
 		}
@@ -46,4 +52,8 @@ public class Camera {
 		return roll;
 	}
 	
+	public void pan(float y, float p) {
+		 yaw += y;
+		 pitch -= p;
+	}
 }
