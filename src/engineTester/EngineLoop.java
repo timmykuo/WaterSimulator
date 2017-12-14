@@ -99,8 +99,10 @@ public class EngineLoop {
 		WaterShader waterShader = new WaterShader();
 		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
 		List<WaterTile> waters = new ArrayList<WaterTile>();
-		WaterTile water = new WaterTile(0, -75, 0);
-		waters.add(water);
+		WaterTile water1 = new WaterTile(200, -200, 0);
+		WaterTile water2 = new WaterTile(-200, -200, 0);
+		waters.add(water1);
+		waters.add(water2);
 		
 		while (!Display.isCloseRequested() ) {
 			// game logic
@@ -108,17 +110,18 @@ public class EngineLoop {
 			camera.move();
 			
 			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
-			 
-			fbos.bindReflectionFrameBuffer();
-			float distance = 2*(camera.getPosition().y-water.getHeight());
-			camera.getPosition().y -= distance;
-			camera.invertPitch();
-			renderer.renderScene(entities, terrains, light, camera, new Vector4f(0, 1, 0, -water.getHeight()));
-			camera.getPosition().y += distance;
-			camera.invertPitch();
+			for(WaterTile water: waters) {
+				fbos.bindReflectionFrameBuffer();
+				float distance = 2*(camera.getPosition().y-water.getHeight());
+				camera.getPosition().y -= distance;
+				camera.invertPitch();
+				renderer.renderScene(entities, terrains, light, camera, new Vector4f(0, 1, 0, -water.getHeight()));
+				camera.getPosition().y += distance;
+				camera.invertPitch();
 			
-			fbos.bindRefractionFrameBuffer();
-			renderer.renderScene(entities, terrains, light, camera, new Vector4f(0, -1, 0, water.getHeight()));
+				fbos.bindRefractionFrameBuffer();
+				renderer.renderScene(entities, terrains, light, camera, new Vector4f(0, -1, 0, water.getHeight()));
+			}
 
 			fbos.unbindCurrentFrameBuffer();
 			renderer.renderScene(entities, terrains, light, camera, new Vector4f(0, -1, 0, 100000));
