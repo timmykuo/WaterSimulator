@@ -71,13 +71,12 @@ public class EngineLoop {
 		terrains.add(terrain);
 		terrains.add(terrain2);
 		
-		WaterShader waterShader = new WaterShader();
-		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix());
-		List<WaterTile> waters = new ArrayList<WaterTile>();
-		WaterTile water = new WaterTile(0, -75, 1);
-		waters.add(water);
-		
 		WaterFrameBuffers fbos = new WaterFrameBuffers();
+		WaterShader waterShader = new WaterShader();
+		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
+		List<WaterTile> waters = new ArrayList<WaterTile>();
+		WaterTile water = new WaterTile(0, -75, 0);
+		waters.add(water);
 		
 		while (!Display.isCloseRequested() ) {
 			// game logic
