@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector4f;
 
 import models.RawModel;
 import models.TexturedModel;
@@ -67,32 +71,35 @@ public class EngineLoop {
 		terrains.add(terrain);
 		terrains.add(terrain2);
 		
-		WaterShader waterShader = new WaterShader();
-		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix());
-		List<WaterTile> waters = new ArrayList<WaterTile>();
-		waters.add(new WaterTile(0, -75, 1));
-		
 		WaterFrameBuffers fbos = new WaterFrameBuffers();
+		WaterShader waterShader = new WaterShader();
+		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
+		List<WaterTile> waters = new ArrayList<WaterTile>();
+		WaterTile water = new WaterTile(0, -75, 0);
+		waters.add(water);
 		
 		while (!Display.isCloseRequested() ) {
 			// game logic
 //			entity.increaseRotation(0, 1, 0);
 			camera.move();
 			
+			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
+			 
 			fbos.bindReflectionFrameBuffer();
-			renderer.renderScene(entities, terrains, light, camera);
+			float distance = 2*(camera.getPosition().y-water.getHeight());
+			camera.getPosition().y -= distance;
+			camera.invertPitch();
+			renderer.renderScene(entities, terrains, light, camera, new Vector4f(0, 1, 0, -water.getHeight()));
+			camera.getPosition().y += distance;
+			camera.invertPitch();
+			
+			fbos.bindRefractionFrameBuffer();
+			renderer.renderScene(entities, terrains, light, camera, new Vector4f(0, -1, 0, water.getHeight()));
+
 			fbos.unbindCurrentFrameBuffer();
-			
-			renderer.renderScene(entities, terrains, light, camera);
-//			renderer.processTerrain(terrain);
-//			renderer.processTerrain(terrain2);
-//			for(Entity entity: entities) {
-//				renderer.processEntity(entity);
-//			}
+			renderer.renderScene(entities, terrains, light, camera, new Vector4f(0, -1, 0, 100000));
 			waterRenderer.render(waters, camera);
-//			renderer.processEntity(entity);
-			
-//			renderer.render(light, camera);
+
 			DisplayManager.updateDisplay();
 		}
 		

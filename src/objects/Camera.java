@@ -45,6 +45,9 @@ public class Camera {
 	public float getPitch() {
 		return pitch;
 	}
+	public void invertPitch() {
+		pitch = -pitch;
+	}
 	public float getYaw() {
 		return yaw;
 	}
