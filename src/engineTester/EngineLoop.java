@@ -50,7 +50,7 @@ public class EngineLoop {
 //		texture.setReflectivity(1);
 		
 //		Entity entity = new Entity(staticModel, new Vector3f(0,0,-25), 0, 0, 0, 1);
-		Light light = new Light(new Vector3f(2000,2000,2000), new Vector3f(1,1,1));
+		Light light = new Light(new Vector3f(2000,2000,-2000), new Vector3f(1,1,1));
 		Camera camera = new Camera();
 		
 		Terrain terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grass")), "heightmap");
@@ -125,7 +125,7 @@ public class EngineLoop {
 
 			fbos.unbindCurrentFrameBuffer();
 			renderer.renderScene(entities, terrains, light, camera, new Vector4f(0, -1, 0, 100000));
-			waterRenderer.render(waters, camera);
+			waterRenderer.render(waters, camera, light);
 
 			DisplayManager.updateDisplay();
 		}
