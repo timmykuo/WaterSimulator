@@ -20,6 +20,7 @@ import render.EntityRenderer;
 import shaders.StaticShader;
 import terrains.Terrain;
 import textures.ModelTexture;
+import water.WaterFrameBuffers;
 import water.WaterRenderer;
 import water.WaterShader;
 import water.WaterTile;
@@ -71,10 +72,16 @@ public class EngineLoop {
 		List<WaterTile> waters = new ArrayList<WaterTile>();
 		waters.add(new WaterTile(0, -75, 1));
 		
+		WaterFrameBuffers fbos = new WaterFrameBuffers();
+		
 		while (!Display.isCloseRequested() ) {
 			// game logic
 //			entity.increaseRotation(0, 1, 0);
 			camera.move();
+			
+			fbos.bindReflectionFrameBuffer();
+			renderer.renderScene(entities, terrains, light, camera);
+			fbos.unbindCurrentFrameBuffer();
 			
 			renderer.renderScene(entities, terrains, light, camera);
 //			renderer.processTerrain(terrain);
@@ -89,6 +96,7 @@ public class EngineLoop {
 			DisplayManager.updateDisplay();
 		}
 		
+		fbos.cleanUp();
 		waterShader.cleanUp();
 		renderer.cleanUp();
 		loader.cleanUp();
